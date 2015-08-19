@@ -15,8 +15,7 @@
 (defn post-handler
   "handling posts"
   [req]
-  (pr-str (:uid (:params req)))
-  )
+  (pr-str (:uid (:params req))))
 
 (defroutes myapp
   (GET "/hello/:name" [name] (str "Hello" " " name) )
@@ -28,8 +27,7 @@
       (read-string (:gt params))
       filter-words
       (clojure.string/join "\n")) )
-  (route/not-found "Page not found")
-  )
+  (route/not-found "Page not found"))
 
 (defn -main [& [port]]
   (print "now we are running")
