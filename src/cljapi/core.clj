@@ -12,14 +12,24 @@
 (defn filter-words [n]
   (filter #(> (count %) n) words-list))
 
+(defn post-handler
+  "handling posts"
+  [req]
+  (pr-str (:uid (:params req)))
+  )
 
 (defroutes myapp
-  (GET "/" [] "Hello World")
+  (GET "/hello/:name" [name] (str "Hello" " " name) )
+  (GET ["/hi/:name.:ext" :name #".*", :ext #"(html|json)$" ] [name ext] (str "Hello" " " name " in: " ext) )
+  (GET "/query" [] (fn [req] (pr-str req) ))
+  (POST "/post" [] post-handler)
   (GET "/words" {params :params}
     (->>
       (read-string (:gt params))
       filter-words
-      (clojure.string/join "\n")) ))
+      (clojure.string/join "\n")) )
+  (route/not-found "Page not found")
+  )
 
 (defn -main [& [port]]
   (print "now we are running")
